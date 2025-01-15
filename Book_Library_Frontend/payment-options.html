@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .book-details {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .book-details h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .book-details p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .book-details img {
+            width: 200px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .order-summary h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .order-summary p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .payment-options button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            margin: 0 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .payment-options button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Payment Options</h1>
+
+    <!-- Book details -->
+    <div class="book-details">
+        <h2 id="book-title"></h2>
+        <p id="book-author"></p>
+        <img id="book-image" src="" alt="Book Image">
+        <p>Quantity: <span id="book-quantity"></span></p>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <h3>Order Summary</h3>
+        <p>Book Name: <span id="summary-title"></span></p>
+        <p>Author: <span id="summary-author"></span></p>
+        <p>Quantity: <span id="summary-quantity"></span></p>
+        <p>Price per Book: $<span id="price-per-book"></span></p>
+        <p>Total Price: $<span id="total-price"></span></p>
+    </div>
+
+    <!-- Payment Options -->
+    <div class="payment-options">
+        <button id="credit-card">Credit Card</button>
+        <button id="paypal">PayPal</button>
+        <button id="google-pay">Google Pay</button>
+    </div>
+
+    <script>
+        // Retrieve book details from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookTitle = urlParams.get('title');
+        const bookAuthor = urlParams.get('author');
+        const bookImage = urlParams.get('image');
+        const bookQuantity = urlParams.get('quantity');
+        const pricePerBook = 20; // Example price per book (this can be dynamically set based on the book)
+
+        // Log the parameters to the console for debugging
+        console.log(`bookTitle: ${bookTitle}, bookAuthor: ${bookAuthor}, bookImage: ${bookImage}, bookQuantity: ${bookQuantity}`);
+
+        if (bookTitle && bookAuthor && bookImage && bookQuantity) {
+            // Display book details on payment options page
+            document.getElementById('book-title').textContent = bookTitle;
+            document.getElementById('book-author').textContent = `Author: ${bookAuthor}`;
+            document.getElementById('book-image').src = bookImage;
+            document.getElementById('book-quantity').textContent = bookQuantity;
+
+            // Order Summary
+            document.getElementById('summary-title').textContent = bookTitle;
+            document.getElementById('summary-author').textContent = bookAuthor;
+            document.getElementById('summary-quantity').textContent = bookQuantity;
+            document.getElementById('price-per-book').textContent = pricePerBook;
+
+            // Calculate total price
+            const totalPrice = pricePerBook * bookQuantity;
+            document.getElementById('total-price').textContent = totalPrice;
+        } else {
+            // If the parameters are missing, show an error message
+            alert('Missing book details in URL.');
+        }
+
+        document.getElementById('credit-card').addEventListener('click', function () {
+            // Redirect to the credit card payment page with the book details in the URL
+            window.location.href = `credit-card-payment.html?title=${bookTitle}&author=${bookAuthor}&image=${bookImage}&quantity=${bookQuantity}`;
+        });
+
+        document.getElementById('paypal').addEventListener('click', function () {
+            alert('Redirecting to PayPal payment gateway...');
+        });
+
+        document.getElementById('google-pay').addEventListener('click', function () {
+            alert('Redirecting to Google Pay payment gateway...');
+        });
+    </script>
+
+</body>
+</html>

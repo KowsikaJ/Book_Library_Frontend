@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .book-details {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .book-details h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .book-details p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .book-details img {
+            width: 200px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .order-summary h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .order-summary p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .delivery-info {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .delivery-info h3 {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .delivery-info p {
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Order Placed Successfully!!</h1>
+
+    <!-- Book Details -->
+    <div class="book-details">
+        <h2 id="confirmation-title"></h2>
+        <p id="confirmation-author"></p>
+        <img id="confirmation-book-image" src="" alt="Book Image">
+        <p>Quantity: <span id="confirmation-quantity"></span></p>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <h3>Order Summary</h3>
+        <p>Book Name: <span id="confirmation-title-summary"></span></p>
+        <p>Author: <span id="confirmation-author-summary"></span></p>
+        <p>Quantity: <span id="confirmation-quantity-summary"></span></p>
+        <p>Price per Book: $<span id="confirmation-price-per-book"></span></p>
+        <p>Total Price: $<span id="confirmation-total-price"></span></p>
+    </div>
+
+    <!-- Delivery Info -->
+    <div class="delivery-info">
+        <h3>Expected Delivery Date</h3>
+        <p id="expected-delivery-date"></p>
+    </div>
+
+    <script>
+        // Retrieve book details from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookTitle = urlParams.get('title');
+        const bookAuthor = urlParams.get('author');
+        const bookImage = urlParams.get('image');
+        const bookQuantity = urlParams.get('quantity');
+        const pricePerBook = 20; // Example price per book (this can be dynamically set based on the book)
+
+        // Check if all parameters are available
+        if (bookTitle && bookAuthor && bookImage && bookQuantity) {
+            // Display book details
+            document.getElementById('confirmation-title').textContent = bookTitle;
+            document.getElementById('confirmation-author').textContent = `Author: ${bookAuthor}`;
+            document.getElementById('confirmation-book-image').src = bookImage;
+            document.getElementById('confirmation-quantity').textContent = bookQuantity;
+
+            // Order Summary
+            document.getElementById('confirmation-title-summary').textContent = bookTitle;
+            document.getElementById('confirmation-author-summary').textContent = bookAuthor;
+            document.getElementById('confirmation-quantity-summary').textContent = bookQuantity;
+            document.getElementById('confirmation-price-per-book').textContent = pricePerBook;
+
+            // Calculate total price
+            const totalPrice = pricePerBook * bookQuantity;
+            document.getElementById('confirmation-total-price').textContent = totalPrice;
+
+            // Calculate and display expected delivery date (5 days from today)
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 5); // Add 5 days to the current date
+            const formattedDate = `${deliveryDate.getMonth() + 1}/${deliveryDate.getDate()}/${deliveryDate.getFullYear()}`;
+            document.getElementById('expected-delivery-date').textContent = formattedDate;
+        } else {
+            alert('Missing book details in URL.');
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details and Feedback</title>
+    <style>
+        /* General Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Title Styles */
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Book Details Section */
+.book-details {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.book-details h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.book-details p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.book-details img {
+    width: 200px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Quantity Selection */
+div {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="number"] {
+    padding: 8px;
+    font-size: 0.9em;
+    width: 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    text-align: center;
+}
+
+/* Pay Now Button */
+button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Feedback Section */
+.feedback-section {
+    margin-top: 40px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-section h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    min-height: 120px;
+}
+#feedback-text {
+    font-size: 1.2em; 
+}
+
+
+.feedback-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.feedback-item {
+    border: 1px solid #ddd;
+    padding: 12px;
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+/* Additional Responsive Adjustments */
+@media (max-width: 768px) {
+    .book-details img {
+        width: 150px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .feedback-section {
+        margin-top: 20px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Book Details and Feedback</h1>
+
+    <!-- Book details -->
+    <div class="book-details">
+        <h2 id="book-title"></h2>
+        <p id="book-author"></p>
+        <img id="book-image" src="" alt="Book Image">
+    </div>
+
+    <!-- Quantity Selection -->
+    <div class="button-container">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" value="1" min="1">
+    </div>
+
+    <!-- Pay Now Button -->
+    <div class="button-container">
+        <button id="pay-now">Pay Now</button>
+    </div>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="feedback-section">
+        <h3>Reviews:</h3>
+        <ul id="review-list" class="feedback-list">
+            <!-- Reviews will be added here dynamically -->
+        </ul>
+    </section>
+
+    <!-- Feedback Form Section -->
+    <section class="feedback-section">
+        <h3>Submit Your Feedback</h3>
+        <textarea id="feedback-text" placeholder="Write your feedback here..." rows="4"></textarea>
+        <div class="button-container">
+            <button id="submit-feedback">Submit Feedback</button>
+        </div>
+    </section>
+
+    <script>
+        // Retrieve book details from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const author = urlParams.get('author');
+        const image = urlParams.get('image');
+
+        // Display book details
+        document.getElementById('book-title').textContent = title;
+        document.getElementById('book-author').textContent = `Author: ${author}`;
+        document.getElementById('book-image').src = image;
+
+        // Example Reviews (these would typically come from a server or database)
+        const reviews = [
+            "A must-read for anyone who enjoys classic literature.",
+            "An incredible, thought-provoking book that keeps you on the edge of your seat.",
+            "A great novel, full of twists and deep social commentary."
+        ];
+
+        const reviewList = document.getElementById('review-list');
+        reviews.forEach(review => {
+            const li = document.createElement('li');
+            li.classList.add('feedback-item');
+            li.textContent = review;
+            reviewList.appendChild(li);
+        });
+
+        /*// Pay Now functionality
+        document.getElementById('pay-now').addEventListener('click', function () {
+            const quantity = document.getElementById('quantity').value;
+            alert(`You are buying ${quantity} copy(s) of ${title}. Redirecting to payment options...`);
+            
+            // Redirect to payment-options.html with book details and quantity as URL parameters
+            window.location.href = `payment-options.html?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&image=${encodeURIComponent(image)}&quantity=${quantity}`;
+        });*/
+
+        // Pay Now button functionality
+        // Pay Now button functionality
+        document.getElementById('pay-now').addEventListener('click', function () {
+            const bookTitle = document.getElementById('book-title').textContent;
+            const bookAuthor = document.getElementById('book-author').textContent;
+            const bookImage = document.getElementById('book-image').src;
+            const bookQuantity = document.getElementById('quantity').value;
+
+            // URL encode the parameters to ensure they are correctly formatted in the URL
+            window.location.href = `payment-options.html?title=${encodeURIComponent(bookTitle)}&author=${encodeURIComponent(bookAuthor)}&image=${encodeURIComponent(bookImage)}&quantity=${encodeURIComponent(bookQuantity)}`;
+
+
+            // Redirect to payment options page with the parameters
+            window.location.href = paymentOptionsUrl;
+        });
+
+
+
+        // Feedback submission functionality
+        document.getElementById('submit-feedback').addEventListener('click', function () {
+            const feedbackText = document.getElementById('feedback-text').value;
+
+            if (feedbackText.trim() === '') {
+                alert('Please enter feedback before submitting.');
+                return;
+            }
+
+            // Add the feedback to the feedback list
+            const li = document.createElement('li');
+            li.classList.add('feedback-item');
+            li.textContent = feedbackText;
+            reviewList.appendChild(li);
+
+            // Clear the feedback input field
+            document.getElementById('feedback-text').value = '';
+
+            alert('Thank you for your feedback!');
+        });
+    </script>
+
+</body>
+</html>
